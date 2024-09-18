@@ -1,3 +1,6 @@
+#ifndef __BM_UTIL_H__
+#define __BM_UTIL_H__
+
 #include <stdbool.h>
 
 typedef enum {
@@ -31,3 +34,5 @@ bool is_little_endian(void);
 void swap_16bit(void *x);
 void swap_32bit(void *x);
 void swap_64bit(void *x);
+
+#endif
