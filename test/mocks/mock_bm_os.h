@@ -9,7 +9,7 @@ typedef void (*BmTimerCb)(void *);
 
 DECLARE_FAKE_VALUE_FUNC(void *, bm_malloc, size_t);
 DECLARE_FAKE_VOID_FUNC(bm_free, void *);
-DECLARE_FAKE_VALUE_FUNC(BmSemaphore *, bm_semaphore_create);
+DECLARE_FAKE_VALUE_FUNC(BmSemaphore, bm_semaphore_create);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_semaphore_give, BmSemaphore);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_semaphore_take, BmSemaphore, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(uint32_t, bm_get_tick_count);
