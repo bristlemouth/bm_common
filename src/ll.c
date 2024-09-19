@@ -1,6 +1,7 @@
 #include "ll.h"
 #include "bm_os.h"
 #include <stddef.h>
+#include <string.h>
 
 /*!
  @brief Advances Item Cursor On Linked List
@@ -83,16 +84,19 @@ BmErr ll_create_item_static(LLItem *item, void *data, uint32_t id) {
 
  @param item pointer to item to create
  @param data data the item will point to
+ @param size length of data in bytes
  @param id unique identifier the item represents
  
  @return Pointer to newly created LL item on success
  @return NULL on failure
  */
-LLItem *ll_create_item(LLItem *item, void *data, uint32_t id) {
+LLItem *ll_create_item(LLItem *item, void *data, uint32_t size, uint32_t id) {
+  void *tmp = bm_malloc(size);
   item = (LLItem *)bm_malloc(sizeof(LLItem));
 
-  if (item && data && id) {
-    item->data = data;
+  if (item && data) {
+    memcpy(tmp, data, size);
+    item->data = tmp;
     item->id = id;
     item->dynamic = 1;
   }
@@ -116,6 +120,7 @@ BmErr ll_delete_item(LLItem *item) {
   if (item) {
     ret = BmOK;
     if (item->dynamic) {
+      bm_free(item->data);
       bm_free((void *)item);
     }
   }
