@@ -108,7 +108,7 @@ protected:
   }
 
   void ll_clean_up_helper(LL *ll) {
-    for (size_t i = 0; i < NCOUNT; i++) {
+    for (size_t i = NCOUNT; i > 0; --i) {
       ll_remove(ll, ITEMS[i].id);
     }
   }

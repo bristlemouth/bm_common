@@ -71,7 +71,4 @@ function(create_gtest test_name test_src srcs)
     )
 endfunction()
 
-# Dummy variable for unit tests that require no source files
-set(DUMMY src)
-
-create_gtest("ll" "${SRC_DIR}/ll.c" "${DUMMY}")
+create_gtest("ll" "${SRC_DIR}/ll.c" "")
