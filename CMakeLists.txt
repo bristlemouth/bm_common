@@ -32,6 +32,4 @@ else()
         src/ll.c
     )
     add_library(bmcommon ${SOURCES})
-
-    target_link_libraries(bmcommon PUBLIC bmnetif)
 endif()
