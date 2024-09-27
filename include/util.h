@@ -30,6 +30,7 @@ typedef enum {
 } BmErr;
 
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
+#define member_size(type, member) (sizeof(((type *)0)->member))
 
 #define bm_err_check(e, f)                                                     \
   if (e == BmOK) {                                                             \
