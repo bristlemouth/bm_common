@@ -2,6 +2,7 @@
 #define __BM_UTIL_H__
 
 #include <stdbool.h>
+#include <stdio.h>
 
 typedef enum {
   BmOK = 0,
@@ -30,6 +31,20 @@ typedef enum {
 
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
 
+#define bm_err_check(e, f)                                                     \
+  if (e == BmOK) {                                                             \
+    e = f;                                                                     \
+    if (e != BmOK) {                                                           \
+      printf("err: %d at %s:%d ", e, __FILE__, __LINE__);                      \
+    }                                                                          \
+  }
+#define bm_err_check_print(e, f, format, ...)                                  \
+  if (e == BmOK) {                                                             \
+    e = f;                                                                     \
+    if (e != BmOK) {                                                           \
+      printf("err: %d at %s:%d " format, e, __FILE__, __LINE__, __VA_ARGS__);  \
+    }                                                                          \
+  }
 bool is_little_endian(void);
 void swap_16bit(void *x);
 void swap_32bit(void *x);
