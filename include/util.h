@@ -2,6 +2,7 @@
 #define __BM_UTIL_H__
 
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 
 typedef enum {
@@ -46,6 +47,7 @@ typedef enum {
       printf("err: %d at %s:%d " format, e, __FILE__, __LINE__, __VA_ARGS__);  \
     }                                                                          \
   }
+uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
 bool is_little_endian(void);
 void swap_16bit(void *x);
 void swap_32bit(void *x);
