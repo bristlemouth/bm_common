@@ -30,6 +30,15 @@ typedef enum {
   BmECANCELED = 125,
 } BmErr;
 
+// Task Priorities
+#ifndef bcmp_task_priority
+#define bcmp_task_priority 5
+#endif
+
+#ifndef bcmp_topo_task_priority
+#define bcmp_topo_task_priority 3
+#endif
+
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
 #define member_size(type, member) (sizeof(((type *)0)->member))
 
