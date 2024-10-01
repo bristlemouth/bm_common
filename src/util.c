@@ -1,6 +1,9 @@
 #include "util.h"
 #include <stdint.h>
 
+const bm_ip_addr multicast_global_addr = {{0x3FF, 0x0, 0x0, 0x1000000}, 0};
+const bm_ip_addr multicast_ll_addr = {{0x2FF, 0x0, 0x0, 0x1000000}, 0};
+
 uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout) {
   int32_t remaining = (int32_t)((start + timeout) - current);
 

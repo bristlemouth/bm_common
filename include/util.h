@@ -47,10 +47,37 @@ typedef enum {
       printf("err: %d at %s:%d\n" format, e, __FILE__, __LINE__, __VA_ARGS__); \
     }                                                                          \
   }
+
+//TODO: this is a placeholder until ip addresses are figured out
+typedef struct {
+  uint32_t addr[4];
+  uint8_t reserved;
+} bm_ip_addr;
+
+extern const bm_ip_addr multicast_global_addr;
+extern const bm_ip_addr multicast_ll_addr;
+
 uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
 bool is_little_endian(void);
 void swap_16bit(void *x);
 void swap_32bit(void *x);
 void swap_64bit(void *x);
+
+//TODO: make this endian agnostic and platform agnostic
+/*!
+  Extract 64-bit node id from IP address
+
+  \param *ip address to extract node id from
+  \return node id
+*/
+static inline uint64_t ip_to_nodeid(void *ip) {
+  uint32_t high_word = ((uint32_t *)(ip))[2];
+  uint32_t low_word = ((uint32_t *)(ip))[3];
+  if (is_little_endian()) {
+    swap_32bit(&high_word);
+    swap_32bit(&low_word);
+  }
+  return (uint64_t)high_word << 32 | (uint64_t)low_word;
+}
 
 #endif
