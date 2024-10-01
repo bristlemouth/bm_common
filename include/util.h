@@ -37,14 +37,14 @@ typedef enum {
   if (e == BmOK) {                                                             \
     e = f;                                                                     \
     if (e != BmOK) {                                                           \
-      printf("err: %d at %s:%d ", e, __FILE__, __LINE__);                      \
+      printf("err: %d at %s:%d\n", e, __FILE__, __LINE__);                     \
     }                                                                          \
   }
 #define bm_err_check_print(e, f, format, ...)                                  \
   if (e == BmOK) {                                                             \
     e = f;                                                                     \
     if (e != BmOK) {                                                           \
-      printf("err: %d at %s:%d " format, e, __FILE__, __LINE__, __VA_ARGS__);  \
+      printf("err: %d at %s:%d\n" format, e, __FILE__, __LINE__, __VA_ARGS__); \
     }                                                                          \
   }
 uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
