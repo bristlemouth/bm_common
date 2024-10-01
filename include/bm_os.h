@@ -34,21 +34,36 @@ BmErr bm_semaphore_give(BmSemaphore semaphore);
 BmErr bm_semaphore_take(BmSemaphore semaphore, uint32_t timeout_ms);
 
 // Task functions
-BmErr bm_task_create(void (*task)(void *), const char *name, uint32_t stack_size, void *arg,
-                       uint32_t priority, void *task_handle);
+BmErr bm_task_create(void (*task)(void *), const char *name,
+                     uint32_t stack_size, void *arg, uint32_t priority,
+                     void *task_handle);
 void bm_start_scheduler(void);
 
 // Timer functions
-BmTimer bm_timer_create(void (*callback)(void *), const char *name, uint32_t period_ms,
-                        void *arg);
+BmTimer bm_timer_create(void (*callback)(void *), const char *name,
+                        uint32_t period_ms, void *arg);
 BmErr bm_timer_start(BmTimer timer, uint32_t timeout_ms);
 BmErr bm_timer_stop(BmTimer timer, uint32_t timeout_ms);
-BmErr bm_timer_change_period(BmTimer timer, uint32_t period_ms, uint32_t timeout_ms);
+BmErr bm_timer_change_period(BmTimer timer, uint32_t period_ms,
+                             uint32_t timeout_ms);
 uint32_t bm_get_tick_count(void);
 uint32_t bm_get_tick_count_from_isr(void);
 uint32_t bm_ms_to_ticks(uint32_t ms);
 uint32_t bm_ticks_to_ms(uint32_t ticks);
 void bm_delay(uint32_t ms);
+
+#define time_remaining_ticks(startTicks, timeoutTicks)                         \
+  time_remaining(startTicks, bm_get_tick_count(), timeoutTicks)
+#define time_remaining_ticks_from_ISR(startTicks, timeoutTicks)                \
+  time_remaining(startTicks, bm_get_tick_count_from_isr(), timeoutTicks)
+#define time_remaining_ms(startTimeMs, timeoutMs)                              \
+  bm_ticks_to_ms(time_remaining(bm_ms_to_ticks(startTimeMs),                   \
+                                bm_get_tick_count(),                           \
+                                bm_ms_to_ticks(timeoutMs)))
+#define time_remaining_ms_from_ISR(startTimeMs, timeoutMs)                     \
+  bm_ticks_to_ms(time_remaining(bm_ms_to_ticks(startTimeMs),                   \
+                                bm_get_tick_count_from_isr(),                  \
+                                bm_ms_to_ticks(timeoutMs)))
 
 #ifdef __cplusplus
 }

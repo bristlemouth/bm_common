@@ -42,15 +42,17 @@ typedef enum {
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
 #define member_size(type, member) (sizeof(((type *)0)->member))
 
-#define timeRemainingTicks(startTicks, timeoutTicks)                                           \
-  timeRemainingGeneric(startTicks, bm_get_tick_count(), timeoutTicks)
-#define timeRemainingTicksFromISR(startTicks, timeoutTicks)                                    \
-  timeRemainingGeneric(startTicks, bm_get_tick_count_from_isr(), timeoutTicks)
-#define timeRemainingMs(startTimeMs, timeoutMs)                                                \
-  bm_ticks_to_ms(timeRemainingGeneric(bm_ms_to_ticks(startTimeMs), bm_get_tick_count(),          \
+uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
+
+#define time_remaining_ticks(startTicks, timeoutTicks)                                           \
+  time_remaining(startTicks, bm_get_tick_count(), timeoutTicks)
+#define time_remaining_ticks_from_ISR(startTicks, timeoutTicks)                                    \
+  time_remaining(startTicks, bm_get_tick_count_from_isr(), timeoutTicks)
+#define time_remaining_ms(startTimeMs, timeoutMs)                                                \
+  bm_ticks_to_ms(time_remaining(bm_ms_to_ticks(startTimeMs), bm_get_tick_count(),          \
                                      bm_ms_to_ticks(timeoutMs)))
-#define timeRemainingMsFromISR(startTimeMs, timeoutMs)                                         \
-  bm_ticks_to_ms(timeRemainingGeneric(bm_ms_to_ticks(startTimeMs), bm_get_tick_count_from_isr(),   \
+#define time_remaining_ms_from_ISR(startTimeMs, timeoutMs)                                         \
+  bm_ticks_to_ms(time_remaining(bm_ms_to_ticks(startTimeMs), bm_get_tick_count_from_isr(),   \
                                      bm_ms_to_ticks(timeoutMs)))
 
 
@@ -78,7 +80,6 @@ typedef struct {
 extern const bm_ip_addr multicast_global_addr;
 extern const bm_ip_addr multicast_ll_addr;
 
-uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
 bool is_little_endian(void);
 void swap_16bit(void *x);
 void swap_32bit(void *x);
