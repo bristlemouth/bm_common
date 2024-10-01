@@ -39,22 +39,23 @@ typedef enum {
 #define bcmp_topo_task_priority 3
 #endif
 
+typedef struct {
+  uint16_t year;
+  uint8_t month;
+  uint8_t day;
+  uint8_t hour;
+  uint8_t min;
+  uint8_t sec;
+  uint32_t usec;
+} UtcDateTime;
+
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
 #define member_size(type, member) (sizeof(((type *)0)->member))
 
 uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
-
-#define time_remaining_ticks(startTicks, timeoutTicks)                                           \
-  time_remaining(startTicks, bm_get_tick_count(), timeoutTicks)
-#define time_remaining_ticks_from_ISR(startTicks, timeoutTicks)                                    \
-  time_remaining(startTicks, bm_get_tick_count_from_isr(), timeoutTicks)
-#define time_remaining_ms(startTimeMs, timeoutMs)                                                \
-  bm_ticks_to_ms(time_remaining(bm_ms_to_ticks(startTimeMs), bm_get_tick_count(),          \
-                                     bm_ms_to_ticks(timeoutMs)))
-#define time_remaining_ms_from_ISR(startTimeMs, timeoutMs)                                         \
-  bm_ticks_to_ms(time_remaining(bm_ms_to_ticks(startTimeMs), bm_get_tick_count_from_isr(),   \
-                                     bm_ms_to_ticks(timeoutMs)))
-
+uint32_t utc_from_date_time(uint16_t year, uint8_t month, uint8_t day,
+                            uint8_t hour, uint8_t minute, uint8_t second);
+void date_time_from_utc(uint64_t utc_us, UtcDateTime *dateTime);
 
 #define bm_err_check(e, f)                                                     \
   if (e == BmOK) {                                                             \
