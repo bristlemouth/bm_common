@@ -55,7 +55,7 @@ typedef struct {
 uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
 uint32_t utc_from_date_time(uint16_t year, uint8_t month, uint8_t day,
                             uint8_t hour, uint8_t minute, uint8_t second);
-void date_time_from_utc(uint64_t utc_us, UtcDateTime *dateTime);
+void date_time_from_utc(uint64_t utc_us, UtcDateTime *date_time);
 
 #define bm_err_check(e, f)                                                     \
   if (e == BmOK) {                                                             \

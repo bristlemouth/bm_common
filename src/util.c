@@ -111,39 +111,39 @@ static const uint8_t *get_days_per_month(uint32_t year) {
   \param[out] UtcDateTime - date time
   \return None
 */
-void date_time_from_utc(uint64_t utc_us, UtcDateTime *dateTime) {
+void date_time_from_utc(uint64_t utc_us, UtcDateTime *date_time) {
   // TODO - Do we really need this?
   // configASSERT(dateTime);
 
   // year
   uint64_t days = (utc_us / MICROSECONDS_PER_SECOND) / SECS_PER_DAY;
-  dateTime->year = 1970;
-  while (days >= get_days_for_year(dateTime->year)) {
-    days -= get_days_for_year(dateTime->year);
-    dateTime->year++;
+  date_time->year = 1970;
+  while (days >= get_days_for_year(date_time->year)) {
+    days -= get_days_for_year(date_time->year);
+    date_time->year++;
   }
 
   // months
-  const uint8_t *monthDays = get_days_per_month(dateTime->year);
-  dateTime->month = 1;
-  while (days >= monthDays[dateTime->month - 1]) {
-    days -= monthDays[dateTime->month - 1];
-    dateTime->month++;
+  const uint8_t *monthDays = get_days_per_month(date_time->year);
+  date_time->month = 1;
+  while (days >= monthDays[date_time->month - 1]) {
+    days -= monthDays[date_time->month - 1];
+    date_time->month++;
   }
 
   // days
-  dateTime->day = days + 1;
+  date_time->day = days + 1;
 
   uint64_t secondsRemaining = (utc_us / MICROSECONDS_PER_SECOND) % SECS_PER_DAY;
   // hours
-  dateTime->hour = secondsRemaining / SECS_PER_HOUR;
+  date_time->hour = secondsRemaining / SECS_PER_HOUR;
 
   // minutes
-  dateTime->min = (secondsRemaining / SECS_PER_MIN) % SECS_PER_MIN;
+  date_time->min = (secondsRemaining / SECS_PER_MIN) % SECS_PER_MIN;
 
   // seconds
-  dateTime->sec = secondsRemaining % SECS_PER_MIN;
+  date_time->sec = secondsRemaining % SECS_PER_MIN;
 
   // useconds
-  dateTime->usec = utc_us % MICROSECONDS_PER_SECOND;
+  date_time->usec = utc_us % MICROSECONDS_PER_SECOND;
 }
