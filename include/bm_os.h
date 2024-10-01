@@ -45,6 +45,7 @@ BmErr bm_timer_start(BmTimer timer, uint32_t timeout_ms);
 BmErr bm_timer_stop(BmTimer timer, uint32_t timeout_ms);
 BmErr bm_timer_change_period(BmTimer timer, uint32_t period_ms, uint32_t timeout_ms);
 uint32_t bm_get_tick_count(void);
+uint32_t bm_get_tick_count_from_isr(void);
 uint32_t bm_ms_to_ticks(uint32_t ms);
 uint32_t bm_ticks_to_ms(uint32_t ticks);
 void bm_delay(uint32_t ms);

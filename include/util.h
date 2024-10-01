@@ -42,6 +42,18 @@ typedef enum {
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
 #define member_size(type, member) (sizeof(((type *)0)->member))
 
+#define timeRemainingTicks(startTicks, timeoutTicks)                                           \
+  timeRemainingGeneric(startTicks, bm_get_tick_count(), timeoutTicks)
+#define timeRemainingTicksFromISR(startTicks, timeoutTicks)                                    \
+  timeRemainingGeneric(startTicks, bm_get_tick_count_from_isr(), timeoutTicks)
+#define timeRemainingMs(startTimeMs, timeoutMs)                                                \
+  bm_ticks_to_ms(timeRemainingGeneric(bm_ms_to_ticks(startTimeMs), bm_get_tick_count(),          \
+                                     bm_ms_to_ticks(timeoutMs)))
+#define timeRemainingMsFromISR(startTimeMs, timeoutMs)                                         \
+  bm_ticks_to_ms(timeRemainingGeneric(bm_ms_to_ticks(startTimeMs), bm_get_tick_count_from_isr(),   \
+                                     bm_ms_to_ticks(timeoutMs)))
+
+
 #define bm_err_check(e, f)                                                     \
   if (e == BmOK) {                                                             \
     e = f;                                                                     \
