@@ -80,9 +80,11 @@ void swap_64bit(void *x);
   \return node id
 */
 static inline uint64_t ip_to_nodeid(void *ip) {
-  uint32_t high_word = ((uint32_t *)(ip))[2];
-  uint32_t low_word = ((uint32_t *)(ip))[3];
-  if (is_little_endian()) {
+  uint32_t high_word = 0;
+  uint32_t low_word = 0;
+  if (ip && is_little_endian()) {
+    high_word = ((uint32_t *)(ip))[2];
+    low_word = ((uint32_t *)(ip))[3];
     swap_32bit(&high_word);
     swap_32bit(&low_word);
   }
