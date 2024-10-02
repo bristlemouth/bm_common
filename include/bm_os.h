@@ -52,6 +52,7 @@ uint32_t bm_ms_to_ticks(uint32_t ms);
 uint32_t bm_ticks_to_ms(uint32_t ticks);
 void bm_delay(uint32_t ms);
 
+// These use time_remaining from util.c
 #define time_remaining_ticks(startTicks, timeoutTicks)                         \
   time_remaining(startTicks, bm_get_tick_count(), timeoutTicks)
 #define time_remaining_ticks_from_ISR(startTicks, timeoutTicks)                \
