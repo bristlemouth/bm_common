@@ -37,14 +37,14 @@ void swap_64bit(void *x) {
 }
 
 // leap year calulator expects year argument as years offset from 1970
-#define LEAP_YEAR(Y)                                                           \
+#define leap_year(Y)                                                           \
   (((1970 + Y) > 0) && !((1970 + Y) % 4) &&                                    \
    (((1970 + Y) % 100) || !((1970 + Y) % 400)))
 
-#define SECS_PER_MIN (60UL)
-#define SECS_PER_HOUR (3600UL)
-#define SECS_PER_DAY (SECS_PER_HOUR * 24UL)
-#define MICROSECONDS_PER_SECOND (1000000)
+#define secs_per_min (60UL)
+#define secs_per_hour (3600UL)
+#define secs_per_day (secs_per_hour * 24UL)
+#define microseconds_per_second (1000000)
 
 static const uint8_t MONTH_DAYS[] = {
     31, 28, 31, 30, 31, 30, 31,
@@ -70,38 +70,38 @@ uint32_t utc_from_date_time(uint16_t year, uint8_t month, uint8_t day,
   uint32_t seconds;
 
   // seconds from 1970 till 1 jan 00:00:00 of the given year
-  seconds = (year - 1970) * (SECS_PER_DAY * 365);
+  seconds = (year - 1970) * (secs_per_day * 365);
   for (i = 1970; i < year; i++) {
-    if (LEAP_YEAR(i - 1970)) {
-      seconds += SECS_PER_DAY; // add extra days for leap years
+    if (leap_year(i - 1970)) {
+      seconds += secs_per_day; // add extra days for leap years
     }
   }
 
   // add days for this year, months start from 1
   for (i = 1; i < month; i++) {
-    if ((i == 2) && LEAP_YEAR(year - 1970)) {
-      seconds += SECS_PER_DAY * 29;
+    if ((i == 2) && leap_year(year - 1970)) {
+      seconds += secs_per_day * 29;
     } else {
       seconds +=
-          SECS_PER_DAY * MONTH_DAYS[i - 1]; //monthDay array starts from 0
+          secs_per_day * MONTH_DAYS[i - 1]; //monthDay array starts from 0
     }
   }
-  seconds += (day - 1) * SECS_PER_DAY;
-  seconds += hour * SECS_PER_HOUR;
-  seconds += minute * SECS_PER_MIN;
+  seconds += (day - 1) * secs_per_day;
+  seconds += hour * secs_per_hour;
+  seconds += minute * secs_per_min;
   seconds += second;
   return seconds;
 }
 
-#define DAYS_PER_YEAR (365)
-#define DAYS_PER_LEAP_YEAR (DAYS_PER_YEAR + 1)
+#define days_per_year (365)
+#define days_per_leap_year (days_per_year + 1)
 
 static uint32_t get_days_for_year(uint32_t year) {
-  return LEAP_YEAR(year - 1970) ? DAYS_PER_LEAP_YEAR : DAYS_PER_YEAR;
+  return leap_year(year - 1970) ? days_per_leap_year : days_per_year;
 }
 
 static const uint8_t *get_days_per_month(uint32_t year) {
-  return LEAP_YEAR(year - 1970) ? MONTH_DAYS_LEAP_YEAR : MONTH_DAYS;
+  return leap_year(year - 1970) ? MONTH_DAYS_LEAP_YEAR : MONTH_DAYS;
 }
 
 /*!
@@ -112,38 +112,37 @@ static const uint8_t *get_days_per_month(uint32_t year) {
   \return None
 */
 void date_time_from_utc(uint64_t utc_us, UtcDateTime *date_time) {
-  // TODO - Do we really need this?
-  // configASSERT(dateTime);
+  if (date_time){
+    // year
+    uint64_t days = (utc_us / microseconds_per_second) / secs_per_day;
+    date_time->year = 1970;
+    while (days >= get_days_for_year(date_time->year)) {
+      days -= get_days_for_year(date_time->year);
+      date_time->year++;
+    }
 
-  // year
-  uint64_t days = (utc_us / MICROSECONDS_PER_SECOND) / SECS_PER_DAY;
-  date_time->year = 1970;
-  while (days >= get_days_for_year(date_time->year)) {
-    days -= get_days_for_year(date_time->year);
-    date_time->year++;
+    // months
+    const uint8_t *monthDays = get_days_per_month(date_time->year);
+    date_time->month = 1;
+    while (days >= monthDays[date_time->month - 1]) {
+      days -= monthDays[date_time->month - 1];
+      date_time->month++;
+    }
+
+    // days
+    date_time->day = days + 1;
+
+    uint64_t secondsRemaining = (utc_us / microseconds_per_second) % secs_per_day;
+    // hours
+    date_time->hour = secondsRemaining / secs_per_hour;
+
+    // minutes
+    date_time->min = (secondsRemaining / secs_per_min) % secs_per_min;
+
+    // seconds
+    date_time->sec = secondsRemaining % secs_per_min;
+
+    // useconds
+    date_time->usec = utc_us % microseconds_per_second;
   }
-
-  // months
-  const uint8_t *monthDays = get_days_per_month(date_time->year);
-  date_time->month = 1;
-  while (days >= monthDays[date_time->month - 1]) {
-    days -= monthDays[date_time->month - 1];
-    date_time->month++;
-  }
-
-  // days
-  date_time->day = days + 1;
-
-  uint64_t secondsRemaining = (utc_us / MICROSECONDS_PER_SECOND) % SECS_PER_DAY;
-  // hours
-  date_time->hour = secondsRemaining / SECS_PER_HOUR;
-
-  // minutes
-  date_time->min = (secondsRemaining / SECS_PER_MIN) % SECS_PER_MIN;
-
-  // seconds
-  date_time->sec = secondsRemaining % SECS_PER_MIN;
-
-  // useconds
-  date_time->usec = utc_us % MICROSECONDS_PER_SECOND;
 }
