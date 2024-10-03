@@ -1,3 +1,4 @@
+#include "fff.h"
 #include "gtest/gtest.h"
 #include <helpers.hpp>
 #include <stddef.h>
@@ -5,13 +6,11 @@
 #include <string.h>
 #include <time.h>
 
-#ifdef __cplusplus
+DEFINE_FFF_GLOBALS
+
 extern "C" {
-#endif
 #include "ll.h"
-#ifdef __cplusplus
 }
-#endif
 
 #define min_items 1024
 #define max_items 8192

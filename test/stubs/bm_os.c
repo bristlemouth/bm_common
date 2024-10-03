@@ -1,8 +1,6 @@
 #include "mock_bm_os.h"
 #include <stdlib.h>
 
-DEFINE_FFF_GLOBALS;
-
 void *bm_malloc(size_t size) { return malloc(size); }
 void bm_free(void *p) { return free(p); }
 DEFINE_FAKE_VALUE_FUNC(BmSemaphore, bm_semaphore_create);
