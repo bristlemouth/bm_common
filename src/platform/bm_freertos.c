@@ -94,6 +94,8 @@ BmErr bm_timer_change_period(BmTimer timer, uint32_t period_ms, uint32_t timeout
 
 uint32_t bm_get_tick_count(void) { return xTaskGetTickCount(); }
 
+uint32_t bm_get_tick_count_from_isr(void) { return xTaskGetTickCountFromISR(); }
+
 uint32_t bm_ms_to_ticks(uint32_t ms) { return pdMS_TO_TICKS(ms); }
 
 uint32_t bm_ticks_to_ms(uint32_t ticks) { return pdTICKS_TO_MS(ticks); }

@@ -39,8 +39,23 @@ typedef enum {
 #define bcmp_topo_task_priority 3
 #endif
 
+typedef struct {
+  uint16_t year;
+  uint8_t month;
+  uint8_t day;
+  uint8_t hour;
+  uint8_t min;
+  uint8_t sec;
+  uint32_t usec;
+} UtcDateTime;
+
 #define array_size(x) (sizeof(x) / sizeof(x[0]))
 #define member_size(type, member) (sizeof(((type *)0)->member))
+
+uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
+uint32_t utc_from_date_time(uint16_t year, uint8_t month, uint8_t day,
+                            uint8_t hour, uint8_t minute, uint8_t second);
+void date_time_from_utc(uint64_t utc_us, UtcDateTime *date_time);
 
 #define bm_err_check(e, f)                                                     \
   if (e == BmOK) {                                                             \
@@ -66,7 +81,6 @@ typedef struct {
 extern const bm_ip_addr multicast_global_addr;
 extern const bm_ip_addr multicast_ll_addr;
 
-uint32_t time_remaining(uint32_t start, uint32_t current, uint32_t timeout);
 bool is_little_endian(void);
 void swap_16bit(void *x);
 void swap_32bit(void *x);
