@@ -10,7 +10,7 @@
 */
 void libSmInit(libSmContext_t* ctx, const libSmState_t* init_state, checkTransitionsForNextState_t checkTransitionsForNextState){
     // configASSERT(checkTransitionsForNextState != NULL);
-    ctx->current_state = &init_state;
+    ctx->current_state = init_state;
     ctx->checkTransitionsForNextState = checkTransitionsForNextState;
 }
 
@@ -25,7 +25,7 @@ void libSmRun(libSmContext_t* ctx) {
     // configASSERT(ctx.current_state->run);
     ctx->current_state->run();
     const libSmState_t * next_state = ctx->checkTransitionsForNextState(ctx->current_state->stateEnum);
-    configASSERT(next_state != NULL);
+    // configASSERT(next_state != NULL);
     if (ctx->current_state != next_state) {
         if(ctx->current_state->onStateExit){
             ctx->current_state->onStateExit();
