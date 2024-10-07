@@ -5,6 +5,8 @@
 extern "C" {
 #endif // __cplusplus
 
+// TODO - pass by pointer since I can't do by reference in C
+
 typedef struct {
     uint8_t stateEnum; // Should match to an ENUM corresponding to state.
     const char * stateName; // MUST NOT BE NULL
@@ -20,10 +22,10 @@ typedef struct {
     checkTransitionsForNextState_t checkTransitionsForNextState;
 } libSmContext_t;
 
-void libSmInit(libSmContext_t& ctx, const libSmState_t& init_state, checkTransitionsForNextState_t checkTransitionsForNextState);
-void libSmRun(libSmContext_t& ctx);
-const char * libSmGetCurrentStateName(const libSmContext_t& ctx);
-uint8_t getCurrentStateEnum(const libSmContext_t& ctx);
+void libSmInit(libSmContext_t* ctx, const libSmState_t* init_state, checkTransitionsForNextState_t checkTransitionsForNextState);
+void libSmRun(libSmContext_t* ctx);
+const char * libSmGetCurrentStateName(const libSmContext_t* ctx);
+uint8_t getCurrentStateEnum(const libSmContext_t* ctx);
 #ifdef __cplusplus
 }
 #endif // __cplusplus

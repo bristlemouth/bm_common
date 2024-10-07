@@ -8,10 +8,10 @@
   \param[in] checkTransitionsForNextState Pointer to the function which will check for state transitions.
   \return N/A
 */
-void libSmInit(libSmContext_t& ctx, const libSmState_t& init_state, checkTransitionsForNextState_t checkTransitionsForNextState){
+void libSmInit(libSmContext_t* ctx, const libSmState_t* init_state, checkTransitionsForNextState_t checkTransitionsForNextState){
     // configASSERT(checkTransitionsForNextState != NULL);
-    ctx.current_state = &init_state;
-    ctx.checkTransitionsForNextState = checkTransitionsForNextState;
+    ctx->current_state = &init_state;
+    ctx->checkTransitionsForNextState = checkTransitionsForNextState;
 }
 
 /*!
@@ -20,19 +20,19 @@ void libSmInit(libSmContext_t& ctx, const libSmState_t& init_state, checkTransit
   \param[in] ctx Pointer to the state machine context.
   \return N/A
 */
-void libSmRun(libSmContext_t& ctx) {
+void libSmRun(libSmContext_t* ctx) {
     // configASSERT(ctx.current_state != NULL);
     // configASSERT(ctx.current_state->run);
-    ctx.current_state->run();
-    const libSmState_t * next_state = ctx.checkTransitionsForNextState(ctx.current_state->stateEnum);
+    ctx->current_state->run();
+    const libSmState_t * next_state = ctx->checkTransitionsForNextState(ctx->current_state->stateEnum);
     configASSERT(next_state != NULL);
-    if (ctx.current_state != next_state) {
-        if(ctx.current_state->onStateExit){
-            ctx.current_state->onStateExit();
+    if (ctx->current_state != next_state) {
+        if(ctx->current_state->onStateExit){
+            ctx->current_state->onStateExit();
         }
-        ctx.current_state = next_state;
-        if(ctx.current_state->onStateEntry){
-            ctx.current_state->onStateEntry();
+        ctx->current_state = next_state;
+        if(ctx->current_state->onStateEntry){
+            ctx->current_state->onStateEntry();
         }
     }
 }
@@ -43,9 +43,9 @@ void libSmRun(libSmContext_t& ctx) {
   \param[in] ctx Pointer to the state machine context.
   \return The name of the current state.
 */
-const char * libSmGetCurrentStateName(const libSmContext_t& ctx) {
+const char * libSmGetCurrentStateName(const libSmContext_t* ctx) {
     // configASSERT(ctx.current_state->stateName != NULL);
-    return ctx.current_state->stateName;
+    return ctx->current_state->stateName;
 }
 
 /*!
@@ -54,6 +54,6 @@ const char * libSmGetCurrentStateName(const libSmContext_t& ctx) {
   \param[in] ctx Pointer to the state machine context.
   \return The name of the current state.
 */
-uint8_t getCurrentStateEnum(const libSmContext_t& ctx) {
-  return ctx.current_state->stateEnum;
+uint8_t getCurrentStateEnum(const libSmContext_t* ctx) {
+  return ctx->current_state->stateEnum;
 }
