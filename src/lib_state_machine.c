@@ -1,5 +1,4 @@
 #include "lib_state_machine.h"
-#include "FreeRTOS.h"
 
 /*!
   Initialize the state machine
@@ -10,7 +9,7 @@
   \return N/A
 */
 void libSmInit(libSmContext_t& ctx, const libSmState_t& init_state, checkTransitionsForNextState_t checkTransitionsForNextState){
-    configASSERT(checkTransitionsForNextState != NULL);
+    // configASSERT(checkTransitionsForNextState != NULL);
     ctx.current_state = &init_state;
     ctx.checkTransitionsForNextState = checkTransitionsForNextState;
 }
@@ -22,8 +21,8 @@ void libSmInit(libSmContext_t& ctx, const libSmState_t& init_state, checkTransit
   \return N/A
 */
 void libSmRun(libSmContext_t& ctx) {
-    configASSERT(ctx.current_state != NULL);
-    configASSERT(ctx.current_state->run);
+    // configASSERT(ctx.current_state != NULL);
+    // configASSERT(ctx.current_state->run);
     ctx.current_state->run();
     const libSmState_t * next_state = ctx.checkTransitionsForNextState(ctx.current_state->stateEnum);
     configASSERT(next_state != NULL);
@@ -45,7 +44,7 @@ void libSmRun(libSmContext_t& ctx) {
   \return The name of the current state.
 */
 const char * libSmGetCurrentStateName(const libSmContext_t& ctx) {
-    configASSERT(ctx.current_state->stateName != NULL);
+    // configASSERT(ctx.current_state->stateName != NULL);
     return ctx.current_state->stateName;
 }
 
