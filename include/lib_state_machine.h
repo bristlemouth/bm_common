@@ -5,27 +5,26 @@
 extern "C" {
 #endif // __cplusplus
 
-// TODO - pass by pointer since I can't do by reference in C
+typedef struct {
+  uint8_t state_enum;          // Should match to an ENUM corresponding to state.
+  const char *state_name;      // MUST NOT BE NULL
+  void (*run)(void);          // MUST NOT BE NULL
+  void (*on_state_exit)(void);  // Null or function pointer
+  void (*on_state_entry)(void); // Null or function pointer
+} LibSmState;
+
+typedef const LibSmState *(*CheckTransitionsForNextState)(uint8_t);
 
 typedef struct {
-    uint8_t stateEnum; // Should match to an ENUM corresponding to state.
-    const char * stateName; // MUST NOT BE NULL
-    void (*run)(void); // MUST NOT BE NULL
-    void (*onStateExit)(void); // Null or function pointer
-    void (*onStateEntry)(void); // Null or function pointer
-} libSmState_t;
+  const LibSmState *current_state;
+  CheckTransitionsForNextState check_transitions_for_next_state;
+} LibSmContext;
 
-typedef const libSmState_t* (*checkTransitionsForNextState_t)(uint8_t);
-
-typedef struct {
-    const libSmState_t * current_state;
-    checkTransitionsForNextState_t checkTransitionsForNextState;
-} libSmContext_t;
-
-void libSmInit(libSmContext_t* ctx, const libSmState_t* init_state, checkTransitionsForNextState_t checkTransitionsForNextState);
-void libSmRun(libSmContext_t* ctx);
-const char * libSmGetCurrentStateName(const libSmContext_t* ctx);
-uint8_t getCurrentStateEnum(const libSmContext_t* ctx);
+void lib_sm_init(LibSmContext *ctx, const LibSmState *init_state,
+               CheckTransitionsForNextState check_transitions_for_next_state);
+void lib_sm_run(LibSmContext *ctx);
+const char *lib_sm_get_current_state_name(const LibSmContext *ctx);
+uint8_t get_current_state_enum(const LibSmContext *ctx);
 #ifdef __cplusplus
 }
 #endif // __cplusplus
