@@ -1,9 +1,7 @@
-#pragma once
-#include <stdint.h>
+#ifndef __LIB_STATE_MACHINE_H__
+#define __LIB_STATE_MACHINE_H__
 
-#ifdef __cplusplus
-extern "C" {
-#endif // __cplusplus
+#include <stdint.h>
 
 typedef struct {
   uint8_t state_enum;           // Should match to an ENUM corresponding to state.
@@ -25,6 +23,5 @@ void lib_sm_init(LibSmContext *ctx, const LibSmState *init_state,
 void lib_sm_run(LibSmContext *ctx);
 const char *lib_sm_get_current_state_name(const LibSmContext *ctx);
 uint8_t get_current_state_enum(const LibSmContext *ctx);
-#ifdef __cplusplus
-}
-#endif // __cplusplus
+
+#endif // __LIB_STATE_MACHINE_H__
