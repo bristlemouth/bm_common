@@ -6,9 +6,9 @@ extern "C" {
 #endif // __cplusplus
 
 typedef struct {
-  uint8_t state_enum;          // Should match to an ENUM corresponding to state.
-  const char *state_name;      // MUST NOT BE NULL
-  void (*run)(void);          // MUST NOT BE NULL
+  uint8_t state_enum;           // Should match to an ENUM corresponding to state.
+  const char *state_name;       // MUST NOT BE NULL
+  void (*run)(void);            // MUST NOT BE NULL
   void (*on_state_exit)(void);  // Null or function pointer
   void (*on_state_entry)(void); // Null or function pointer
 } LibSmState;
