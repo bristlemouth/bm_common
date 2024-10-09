@@ -40,8 +40,8 @@ BmErr bm_task_create(void (*task)(void *), const char *name,
 void bm_start_scheduler(void);
 
 // Timer functions
-BmTimer bm_timer_create(void (*callback)(void *), const char *name,
-                        uint32_t period_ms, void *arg);
+BmTimer bm_timer_create(const char *name, uint32_t period_ms, bool auto_reload,
+                        void *time_id, void (*callback)(void *));
 BmErr bm_timer_start(BmTimer timer, uint32_t timeout_ms);
 BmErr bm_timer_stop(BmTimer timer, uint32_t timeout_ms);
 BmErr bm_timer_change_period(BmTimer timer, uint32_t period_ms,

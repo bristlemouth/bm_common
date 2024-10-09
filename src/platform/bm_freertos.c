@@ -61,9 +61,9 @@ void bm_start_scheduler(void) {
   vTaskStartScheduler();
 }
 
-BmTimer bm_timer_create(void (*callback)(void *), const char *name, uint32_t period_ms,
-                        void *arg) {
-  return xTimerCreate(name, pdMS_TO_TICKS(period_ms), pdTRUE, arg,
+BmTimer bm_timer_create(const char *name, uint32_t period_ms, bool auto_reload,
+                        void *timer_id, void (*callback)(void *)) {
+  return xTimerCreate(name, pdMS_TO_TICKS(period_ms), (UBaseType_t)auto_reload, arg,
                       (TimerCallbackFunction_t)callback);
 }
 
