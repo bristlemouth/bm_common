@@ -15,6 +15,11 @@ extern "C" {
 // #define ASSERT(x) ((void)0)
 // #endif
 
+#define BM_MAX_DELAY_UINT64 0xFFFFFFFFFFFFFFFF
+#define BM_MAX_DELAY_UINT32 0xFFFFFFFF
+#define BM_MAX_DELAY_UINT16 0xFFFF
+#define BM_MAX_DELAY_UINT8 0xFF
+
 typedef void *BmQueue;
 typedef void *BmSemaphore;
 typedef void *BmTimer;
