@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 
 #ifndef TIMER_HANDLER_TASK_PRIORITY
 #define TIMER_HANDLER_TASK_PRIORITY 5
