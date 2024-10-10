@@ -26,18 +26,16 @@ static void timer_callback_handler_task(void *arg) {
   }
 }
 
-void timer_callback_handler_init() {
+BmErr timer_callback_handler_init() {
   CTX.cb_queue = bm_queue_create(TIMER_CB_QUEUE_LEN,
                                   sizeof(TimerCallbackHandlerEvent));
-  // configASSERT(CTX.cb_queue);
-  // configASSERT(bm_task_create(timer_callback_handler_task,
-  //                             "timer_cb_handler",
-  //                               1024,
-  //                               NULL,
-  //                               TIMER_HANDLER_TASK_PRIORITY,
-  //                               NULL) == BmOK);
-  bm_task_create(timer_callback_handler_task, "timer_cb_handler", 1024, NULL,
-                 TIMER_HANDLER_TASK_PRIORITY, NULL);
+  if (!CTX.cb_queue) {
+    return BmENOMEM;
+  }
+  if (bm_task_create(timer_callback_handler_task, "timer_cb_handler", 1024, NULL,
+                 TIMER_HANDLER_TASK_PRIORITY, NULL) != BmOK) {
+    return BmENOMEM;
+  }
 }
 
 bool timer_callback_handler_send_cb(timer_handler_cb cb, void *arg,
