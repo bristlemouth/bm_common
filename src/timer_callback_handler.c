@@ -36,6 +36,7 @@ BmErr timer_callback_handler_init() {
                  TIMER_HANDLER_TASK_PRIORITY, NULL) != BmOK) {
     return BmENOMEM;
   }
+  return BmOK;
 }
 
 bool timer_callback_handler_send_cb(timer_handler_cb cb, void *arg,
