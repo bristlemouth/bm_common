@@ -31,6 +31,7 @@ else()
     set(SOURCES
         src/util.c
         src/ll.c
+        src/lib_state_machine.c
         src/timer_callback_handler.c
         third_party/crc/crc16.c
         third_party/crc/crc32.c
