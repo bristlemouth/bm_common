@@ -17,8 +17,8 @@ DECLARE_FAKE_VALUE_FUNC(BmErr, bm_semaphore_take, BmSemaphore, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(uint32_t, bm_get_tick_count);
 DECLARE_FAKE_VALUE_FUNC(uint32_t, bm_ms_to_ticks, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(uint32_t, bm_ticks_to_ms, uint32_t);
-DECLARE_FAKE_VALUE_FUNC(BmTimer, bm_timer_create, BmTimerCb, const char *,
-                        uint32_t, void *);
+DECLARE_FAKE_VALUE_FUNC(BmTimer, bm_timer_create, const char *, uint32_t, bool,
+                        uint32_t, void *, BmTimerCb);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_timer_start, BmTimer, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_timer_stop, BmTimer, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(BmQueue, bm_queue_create, uint32_t, uint32_t);
