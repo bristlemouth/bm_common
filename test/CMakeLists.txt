@@ -25,6 +25,7 @@ FetchContent_MakeAvailable(fff)
 include(GoogleTest)
 set(SRC_DIR ${CMAKE_CURRENT_LIST_DIR}/../src)
 set(MOCK_DIR ${CMAKE_CURRENT_LIST_DIR}/mocks)
+set(STUB_DIR ${CMAKE_CURRENT_LIST_DIR}/stubs)
 
 include_directories(
     ${MOCK_DIR}
@@ -46,10 +47,10 @@ file(GLOB TEST_STUBS stubs/*.c)
 #
 # test_name - the name to call the test
 # test_src - test file that is to be unit tested
-# srcs sources - necessary to build the application, if no external sources
-#                are used, fill this in with the ${DUMMY} variable
-
-function(create_gtest test_name test_src srcs)
+# srcs - list of sources necessary to build the application, if no external sources
+#                are used, fill this in with the ${NONE} variable
+# stubs - list of stubs that are required for the test
+function(create_gtest test_name test_src srcs stubs)
     set(GTEST_NAME ${test_name}_test)
     add_executable(${GTEST_NAME})
     target_include_directories(${GTEST_NAME}
@@ -59,8 +60,7 @@ function(create_gtest test_name test_src srcs)
         PRIVATE
         ${srcs}
         ${test_src}
-        # Stubs
-        "${TEST_STUBS}"
+        ${stubs}
         src/${test_name}_test.cpp
     )
     gtest_discover_tests(${GTEST_NAME})
@@ -71,4 +71,12 @@ function(create_gtest test_name test_src srcs)
     )
 endfunction()
 
-create_gtest("ll" "${SRC_DIR}/ll.c" "")
+# None variable for unit tests that require no source files (can also be used when no stubs are needed)
+set(NONE src)
+
+# Create a list of stubs for the next unit test
+set (STUBS
+    ${STUB_DIR}/bm_os.c
+)
+create_gtest("ll" "${SRC_DIR}/ll.c" "${NONE}" "${STUBS}")
+create_gtest("lib_state_machine" "${SRC_DIR}/lib_state_machine.c" "${NONE}" "${NONE}")
