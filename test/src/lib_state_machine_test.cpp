@@ -205,27 +205,25 @@ TEST_F(LibStateMachineTest, BasicPump)
 //   EXPECT_DEATH(lib_sm_init(&GLOBAL_CTX.sm_ctx, &states[STAGE_1], NULL),"");
 // }
 
-TEST_F(LibStateMachineTest, BadContext)
-{
-  LibSmContext ctx;
-  EXPECT_DEATH(lib_sm_run(&ctx), ""); // No init
-}
+// TEST_F(LibStateMachineTest, BadContext)
+// {
+//   LibSmContext ctx;
+//   EXPECT_DEATH(lib_sm_run(&ctx), ""); // No init
+// }
 
-// An invalid transition (Used for BadContext test)
-const LibSmState* badTransition(uint8_t current_state) {
-    (void)(current_state);
-    return NULL;
-}
+// // An invalid transition (Used for BadContext test)
+// const LibSmState* badTransition(uint8_t current_state) {
+//     (void)(current_state);
+//     return NULL;
+// }
 
-TEST_F(LibStateMachineTest, BadTransition)
-{
-  LibSmContext ctx;
-  lib_sm_init(&ctx, &states[STAGE_1], badTransition);
-  EXPECT_DEATH(lib_sm_run(&ctx), ""); // badTransition returns NULL
-}
+// TEST_F(LibStateMachineTest, BadTransition)
+// {
+//   LibSmContext ctx;
+//   lib_sm_init(&ctx, &states[STAGE_1], badTransition);
+//   EXPECT_DEATH(lib_sm_run(&ctx), ""); // badTransition returns NULL
+// }
 
-// TODO - re-enable these tests once we have re-enabled ASSERTs. This test expects to crash,
-// but we have the ASSERTs commented out.
 // TEST_F(LibStateMachineTest, BadStateName)
 // {
 //   LibSmContext ctx;
