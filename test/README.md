@@ -28,8 +28,14 @@ To setup, build, and run all tests, use the following commands from the root dir
 
 
 ## Adding Tests
-Add your new test to the end of the `CMakeLists.txt` file in this directory.
-List any of the source files and supporting files that the test will require like this:
+Create a new test file in the `test/src` directory.
+Name your test such that it is the file being tested with `_test` appended to the end. For example, if you are testing `my_file_to_test.c`, name your test file `my_file_to_test_test.cpp`.
+
+Reference the Google Test documentation for how to write tests using Google Test or use the existing tests as examples.
+
+
+Once you have created your new testing file you need to add it to the end of the `CMakeLists.txt` file in this directory.
+First, list any of the source files and supporting files that the test will require like this:
 
   ```cmake
   set(MY_FILE_TO_TEST_SOURCES
@@ -46,7 +52,9 @@ List any of the source files and supporting files that the test will require lik
   where the first argument is the name of the test and
   the second argument is the list of source files.
   The name of the test should be the name of the file being tested
-  without the file extension.
+  without the file extension. This name will be used to automatically find the
+  test file in the test/src directory. For example, if the test file is named
+  `my_file_to_test_test.cpp`, the name of the test should be `my_file_to_test`.
 
   For example:
   ```cmake
