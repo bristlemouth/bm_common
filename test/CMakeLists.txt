@@ -46,11 +46,8 @@ file(GLOB TEST_STUBS stubs/*.c)
 # Coverage report information is compiled in for the file to be tested.
 #
 # test_name - the name to call the test
-# test_src - test file that is to be unit tested
-# srcs - list of sources necessary to build the application, if no external sources
-#                are used, fill this in with the ${NONE} variable
-# stubs - list of stubs that are required for the test
-function(create_gtest test_name test_src srcs stubs)
+# srcs - list of sources necessary to build the test including the file to be tested
+function(create_gtest test_name srcs)
     set(GTEST_NAME ${test_name}_test)
     add_executable(${GTEST_NAME})
     target_include_directories(${GTEST_NAME}
@@ -59,8 +56,6 @@ function(create_gtest test_name test_src srcs stubs)
     target_sources(${GTEST_NAME}
         PRIVATE
         ${srcs}
-        ${test_src}
-        ${stubs}
         src/${test_name}_test.cpp
     )
     gtest_discover_tests(${GTEST_NAME})
@@ -71,12 +66,19 @@ function(create_gtest test_name test_src srcs stubs)
     )
 endfunction()
 
-# None variable for unit tests that require no source files (can also be used when no stubs are needed)
-set(NONE src)
+#  Linked List (LL) unit tests
+set (LL_TEST_SRCS
+    # File we are testing
+    ${SRC_DIR}/ll.c
 
-# Create a list of stubs for the next unit test
-set (STUBS
+    # Supporting files
     ${STUB_DIR}/bm_os.c
 )
-create_gtest("ll" "${SRC_DIR}/ll.c" "${NONE}" "${STUBS}")
-create_gtest("lib_state_machine" "${SRC_DIR}/lib_state_machine.c" "${NONE}" "${NONE}")
+create_gtest("ll" "${LL_TEST_SRCS}")
+
+#  State Machine unit tests
+set (LIB_STATE_MACHINE_TEST_SRCS
+    # File we are testing
+    ${SRC_DIR}/lib_state_machine.c
+)
+create_gtest("lib_state_machine" "${LIB_STATE_MACHINE_TEST_SRCS}")
