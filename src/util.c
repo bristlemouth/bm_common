@@ -36,6 +36,16 @@ void swap_64bit(void *x) {
          ((*swp >> 40) & 0x0000FF00) | (*swp >> 56);
 }
 
+size_t bm_strnlen(const char *s, size_t max_length) {
+  const char *start = s;
+  if (s) {
+    while (max_length-- > 0 && *s) {
+      s++;
+    }
+  }
+  return s - start;
+}
+
 // leap year calulator expects year argument as years offset from 1970
 #define leap_year(Y)                                                           \
   (((1970 + Y) > 0) && !((1970 + Y) % 4) &&                                    \
@@ -112,7 +122,7 @@ static const uint8_t *get_days_per_month(uint32_t year) {
   \return None
 */
 void date_time_from_utc(uint64_t utc_us, UtcDateTime *date_time) {
-  if (date_time){
+  if (date_time) {
     // year
     uint64_t days = (utc_us / microseconds_per_second) / secs_per_day;
     date_time->year = 1970;
@@ -132,7 +142,8 @@ void date_time_from_utc(uint64_t utc_us, UtcDateTime *date_time) {
     // days
     date_time->day = days + 1;
 
-    uint64_t secondsRemaining = (utc_us / microseconds_per_second) % secs_per_day;
+    uint64_t secondsRemaining =
+        (utc_us / microseconds_per_second) % secs_per_day;
     // hours
     date_time->hour = secondsRemaining / secs_per_hour;
 
