@@ -29,6 +29,7 @@ if(ENABLE_TESTING)
     add_subdirectory("test")
 else()
     set(SOURCES
+        src/aligned_malloc.c
         src/util.c
         src/ll.c
         src/lib_state_machine.c

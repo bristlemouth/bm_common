@@ -82,3 +82,13 @@ set (LIB_STATE_MACHINE_TEST_SRCS
     ${SRC_DIR}/lib_state_machine.c
 )
 create_gtest("lib_state_machine" "${LIB_STATE_MACHINE_TEST_SRCS}")
+
+# Aligned Malloc unit tests
+set (ALIGNED_MALLOC_TEST_SRCS
+    # File we are testing
+    ${SRC_DIR}/aligned_malloc.c
+
+    # Supporting files
+    ${STUB_DIR}/bm_os.c
+)
+create_gtest("aligned_malloc" "${ALIGNED_MALLOC_TEST_SRCS}")
