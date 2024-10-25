@@ -1,22 +1,13 @@
-//
 // aligned_malloc.c from https://embeddedartistry.com/blog/2017/02/22/generating-aligned-memory/
 // and https://github.com/embeddedartistry/embedded-resources/blob/master/examples/libc/malloc_aligned.c
 //
 // Modified to work with Bristlemouth bm_core bm_os.h
-//
 
 #include "aligned_malloc.h"
 #include "bm_os.h"
 #include <stdint.h>
 
-/**
- * Definitions
- */
-
-/**
- * Simple macro for making sure memory addresses are aligned
- * to the nearest power of two
- */
+// Align a pointer address upwards to the nearest given power of 2
 #ifndef align_up
 #define align_up(num, align) (((num) + ((align) - 1)) & ~((align) - 1))
 #endif
@@ -24,33 +15,15 @@
 // Number of bytes we're using for storing the aligned pointer offset
 typedef uint16_t offset_t;
 
-/**
- * APIs
- */
-
-/**
- * aligned_malloc takes in the requested alignment and size
- *	We will call malloc with extra bytes for our header and the offset
- *	required to guarantee the desired alignment.
- */
 void *aligned_malloc(size_t align, size_t size) {
   void *ptr = NULL;
 
-  // We want it to be a power of two since align_up operates on powers of two
+  // Align must be a power of two since align_up operates on powers of two
   if (align && size && (align & (align - 1)) == 0) {
     const size_t offset_size = sizeof(offset_t);
-    /*
-	 * We know we have to fit an offset value
-	 * We also allocate extra bytes to ensure we can meet the alignment
-	 */
     uint32_t hdr_size = offset_size + (align - 1);
     void *p = bm_malloc(size + hdr_size);
-
     if (p) {
-      /*
-	   * Add the offset size to malloc's pointer (we will always store that)
-	   * Then align the resulting value to the arget alignment
-	   */
       ptr = (void *)align_up(((uintptr_t)p + offset_size), align);
 
       // Calculate the offset and store it behind our aligned pointer
