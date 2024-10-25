@@ -53,7 +53,7 @@ BmErr bm_semaphore_take(BmSemaphore semaphore, uint32_t timeout_ms) {
 }
 
 BmErr bm_task_create(void (*task)(void *), const char *name, uint32_t stack_size, void *arg,
-                       uint32_t priority, void *task_handle) {
+                       uint32_t priority, BmTaskHandle task_handle) {
   if (xTaskCreate(task, name, stack_size, arg, priority, task_handle) == pdPASS) {
     return BmOK;
   } else {

@@ -31,5 +31,5 @@ DECLARE_FAKE_VOID_FUNC(bm_queue_delete, BmQueue);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_queue_receive, BmQueue, void *, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_queue_send, BmQueue, const void *, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_task_create, BmTaskCb, const char *, uint32_t,
-                        void *, uint32_t, void *);
+                        void *, uint32_t, BmTaskHandle);
 DECLARE_FAKE_VOID_FUNC(bm_task_delete, BmTaskHandle);
