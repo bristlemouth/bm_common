@@ -23,7 +23,6 @@
 
 // Number of bytes we're using for storing the aligned pointer offset
 typedef uint16_t offset_t;
-#define PTR_OFFSET_SZ sizeof(offset_t)
 
 /**
  * APIs
@@ -39,11 +38,12 @@ void *aligned_malloc(size_t align, size_t size) {
 
   // We want it to be a power of two since align_up operates on powers of two
   if (align && size && (align & (align - 1)) == 0) {
+    const size_t offset_size = sizeof(offset_t);
     /*
 	 * We know we have to fit an offset value
 	 * We also allocate extra bytes to ensure we can meet the alignment
 	 */
-    uint32_t hdr_size = PTR_OFFSET_SZ + (align - 1);
+    uint32_t hdr_size = offset_size + (align - 1);
     void *p = bm_malloc(size + hdr_size);
 
     if (p) {
@@ -51,7 +51,7 @@ void *aligned_malloc(size_t align, size_t size) {
 	   * Add the offset size to malloc's pointer (we will always store that)
 	   * Then align the resulting value to the arget alignment
 	   */
-      ptr = (void *)align_up(((uintptr_t)p + PTR_OFFSET_SZ), align);
+      ptr = (void *)align_up(((uintptr_t)p + offset_size), align);
 
       // Calculate the offset and store it behind our aligned pointer
       *((offset_t *)ptr - 1) = (offset_t)((uintptr_t)ptr - (uintptr_t)p);
