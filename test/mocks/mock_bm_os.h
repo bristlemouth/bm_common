@@ -6,6 +6,7 @@
 typedef void *BmQueue;
 typedef void *BmSemaphore;
 typedef void *BmTimer;
+typedef void *BmTaskHandle;
 typedef void (*BmTimerCb)(void *);
 typedef void (*BmTaskCb)(void *);
 
@@ -31,4 +32,4 @@ DECLARE_FAKE_VALUE_FUNC(BmErr, bm_queue_receive, BmQueue, void *, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_queue_send, BmQueue, const void *, uint32_t);
 DECLARE_FAKE_VALUE_FUNC(BmErr, bm_task_create, BmTaskCb, const char *, uint32_t,
                         void *, uint32_t, void *);
-DECLARE_FAKE_VOID_FUNC(bm_task_delete, void *);
+DECLARE_FAKE_VOID_FUNC(bm_task_delete, BmTaskHandle);

@@ -61,7 +61,7 @@ BmErr bm_task_create(void (*task)(void *), const char *name, uint32_t stack_size
   }
 }
 
-void bm_task_delete(void *task_handle) { vTaskDelete((TaskHandle_t)task_handle); }
+void bm_task_delete(BmTaskHandle task_handle) { vTaskDelete((TaskHandle_t)task_handle); }
 
 void bm_start_scheduler(void) {
   vTaskStartScheduler();

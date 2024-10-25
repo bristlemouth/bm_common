@@ -23,6 +23,7 @@ extern "C" {
 typedef void *BmQueue;
 typedef void *BmSemaphore;
 typedef void *BmTimer;
+typedef void *BmTaskHandle;
 
 // Memory functions - these may not necessarily be tied to the OS but I'm including them here for now
 void *bm_malloc(size_t size);
@@ -44,7 +45,7 @@ BmErr bm_semaphore_take(BmSemaphore semaphore, uint32_t timeout_ms);
 BmErr bm_task_create(void (*task)(void *), const char *name,
                      uint32_t stack_size, void *arg, uint32_t priority,
                      void *task_handle);
-void bm_task_delete(void *task_handle);
+void bm_task_delete(BmTaskHandle task_handle);
 void bm_start_scheduler(void);
 
 // Timer functions
