@@ -1,5 +1,9 @@
 # Bristlemouth Common
 
+**This repository is being archived. The code has been incorporated into bm_core in PR 31: bristlemouth/bm_core#31**
+
+---
+
 Under construction as of September 2024!
 
 If you're not sure whether you're in the right place, check out
