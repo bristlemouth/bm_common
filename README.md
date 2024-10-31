@@ -4,15 +4,6 @@
 
 ---
 
-Under construction as of September 2024!
-
-If you're not sure whether you're in the right place, check out
-https://github.com/bristlemouth/bm_protocol
-
-The Bristlemouth core development team is working to increase the
-accessibility of Bristlemouth firmware, especially for potential
-integrators of hardware that would enhance the ecosystem.
-
 ## Constraints
 
 We're just getting started, but here are some of our intentions.
